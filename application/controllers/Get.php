@@ -12,26 +12,53 @@ class Get extends CI_Controller {
 
 	public function index()
 	{
+		$this->detailDb();
+	}
+
+	/**
+	 * [detailDb 详情入库]
+	 * @return [type] [description]
+	 */
+	public function detailDb(){
+		$nowindex = $this->input->get('page') ? $this->input->get('page') : '1';
+		$this->db->limit(10,10 * ($nowindex - 1));
+		$this->db->order_by('id');
+		$ret = $this->db->get_where('movie')->result_array();
+		$urls = array_column($ret, 'get_url');
+		$data = $this->getDetail($urls);
+		foreach ($data as $key => $value) {
+			if(!$this->db->get_where('movie',array('id'=>$value['id'],'paly_url'=>$value['paly_url']))->row_array()){
+				$this->db->update('movie',array('name'=>$value['title'],'update_time'=>$value['update_time'],'cover_img'=>$value['cover_img'],'description'=>$value['description'],'paly_url'=>$value['paly_url']),array('id'=>$value['id']));
+			}
+			foreach ($value['images'] as $k => $v) {
+				$this->db->insert('movie_images',array('movie_id'=>$value['id'],'url'=>$v));
+			}
+		}
+
+	}
+
+	/**
+	 * [pageDb 列表入库]
+	 * @return [type] [description]
+	 */
+	public function pageDb(){
 		$page = $this->input->get('page');
 		$pageNum = $page ? $page : '0';
-		if($pageNum < '3700'){
+		if($pageNum < '5'){
 			$pageNum++;
 			$data = $this->gePage($pageNum);
 			foreach ($data as $key => $value) {
-				$this->db->insert('movie',array('id'=>$value['id'],'get_url'=>$value['url']));
+				// $this->db->insert('movie',array('id'=>$value['id'],'get_url'=>$value['url']));
+				if(!$this->db->get_where('movie',array('id'=>$value['id']))->row_array()){
+					$this->db->query('insert into `ed_movie` (`id`,`get_url`) values("'.$value['id'].'","'.$value['url'].'") ');
+				}
 			}
 			echo "<script>location.href='".base_url('Get/index')."/?page=".$pageNum."'</script>";
 		}
-		// for($i = 1;$i<=3700;$i++){
-		// 	$data = $this->gePage($i);
-		// 	foreach ($data as $key => $value) {
-		// 		$this->db->insert('movie',array('id'=>$value['id'],'get_url'=>$value['url']));
-		// 	}
-		// }
 	}
 
-	public function getDetail($url){
-		$html = $this->http->httpRequest($url,'get');
+	public function getDetail($urls){
+		$htmls =curl_multi_fetch($urls);
 		$reg = array(
 		    'title'=> array('.mbox>.list>.rtl>a ','text'),
 		    'update_time'=>array('.mbox>.list>.info>span ','text','',function($e){
@@ -40,21 +67,31 @@ class Get extends CI_Controller {
 		    }),
 		    'cover_img'=>array('.mbox>.list>.img>img ','src'),
 		    'description'=>array('.pbox >p ','html'),
-		    'play_url'=>array('#playlist>a','href','',function($e){
+		    'paly_url'=>array('#playlist>a','href','',function($e){
 		    	$ci = &get_instance();
 		    	$pUrl = $ci->baseUrl.$e;
-		    	$ht = $ci->http->httpRequest($pUrl,'get');
-		    	preg_match('/var nurl = \"(.*)\";/', $ht, $payurl);
-		    	return $payurl[1];
+		    	$ht = curl_multi_fetch(array($pUrl));
+		    	// $ht = $ci->http->httpRequest($pUrl,'get');
+		    	preg_match('/var nurl = \"(.*)\";/', $ht[0]['results'], $payurl);
+		    	return $payurl ? $payurl[1] : '';
+		    }),
+		    'id'=>array('.fav>a','onclick','',function($e){
+		    	preg_match('/\/(\d+)\.html/', $e, $id);
+		    	return $id[1];
 		    })
+		    // <span class="fav"><a href="javascript:void(0)" onclick='getFav("/xuesheng/1547.html","")'>
 		);
-
-		$data = QueryList::Query($html,$reg);
-		$ret = $data->getData();
-		$images = QueryList::Query($html,array('link' => array('.pbox>.img>img','src')))->data;
-		$retData = $ret[0];
-		$retData['images'] = array_column($images, 'link');
-		return $retData;
+		$results = array();
+		foreach ($htmls as $key => $html) {
+			$html = $html['results'];
+			$data = QueryList::Query($html,$reg);
+			$ret = $data->getData();
+			$images = QueryList::Query($html,array('link' => array('.pbox>.img>img','src')))->data;
+			$retData = $ret[0];
+			$retData['images'] = array_column($images, 'link');
+			$results[$key] = $retData;
+		}
+		return $results;
 	}
 
 	public function gePage($pageNum){
@@ -69,7 +106,6 @@ class Get extends CI_Controller {
 			preg_match('/\/(\d+)\.html/', $value['url'], $matches);
 			$movies[$key]['id'] = $matches[1];
 			$movies[$key]['url'] = $url;
-			// $movies[$key]['detail'] = $this->getDetail($url);
 		}
 		return $movies;
 	}

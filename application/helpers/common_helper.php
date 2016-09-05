@@ -78,46 +78,41 @@ function array_sort($array = array(),$field = "",$type = 'desc'){
 /**
  * [curl_multi_fetch 多线程CURL]
  */
-function curl_multi_fetch($urlarr = array()) {
-    $result = $res = $ch = array();
-    $nch = 0;
-    $mh = curl_multi_init();
-    foreach($urlarr as $nk =>$url) {
-        $timeout = 2;
-        $ch[$nch] = curl_init();
-        curl_setopt_array($ch[$nch], array(CURLOPT_URL =>$url, CURLOPT_HEADER =>false, CURLOPT_RETURNTRANSFER =>true, CURLOPT_TIMEOUT =>$timeout, ));
-        curl_multi_add_handle($mh, $ch[$nch]); ++$nch;
+function curl_multi_fetch($urls) {
+    $queue = curl_multi_init();
+    $map = array();
+    foreach ($urls as $key => $url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_ENCODING, "gzip");
+
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $post[$key]);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOSIGNAL, true);
+        curl_multi_add_handle($queue, $ch);
+        $map[(string) $ch] = $url;
     }
-    /* wait for performing request */
+    $i = 0;
+    $responses = array();
     do {
-        $mrc = curl_multi_exec($mh, $running);
-    } while ( CURLM_CALL_MULTI_PERFORM == $mrc );
-    while ($running && $mrc == CURLM_OK) {
-        // wait for network           
-        if (curl_multi_select($mh, 0.5) > -1) {
-            // pull in new data;               
-            do {
-                $mrc = curl_multi_exec($mh, $running);
-            } while ( CURLM_CALL_MULTI_PERFORM == $mrc );
+        while (($code = curl_multi_exec($queue, $active)) == CURLM_CALL_MULTI_PERFORM) ;
+        if ($code != CURLM_OK) { break; }
+        while ($done = curl_multi_info_read($queue)) {
+            $error = curl_error($done['handle']);
+            $results = curl_multi_getcontent($done['handle']);
+            $responses[$i] = compact('error', 'results');
+            curl_multi_remove_handle($queue, $done['handle']);
+            curl_close($done['handle']);
+            $i++;
         }
-    }
-    if ($mrc != CURLM_OK) {
-        error_log("CURL Data Error");
-    }
-    /* get data */
-    $nch = 0;
-    foreach($urlarr as $moudle =>$node) {
-        if (($err = curl_error($ch[$nch])) == '') {
-            $res[$nch] = curl_multi_getcontent($ch[$nch]);
-            $result[$moudle] = $res[$nch];
-        } else {
-            error_log("curl error");
+        if ($active > 0) {
+            curl_multi_select($queue, 30);
         }
-        curl_multi_remove_handle($mh, $ch[$nch]);
-        curl_close($ch[$nch]); ++$nch;
-    }
-    curl_multi_close($mh);
-    return $result;
+    } while ($active);
+    curl_multi_close($queue);
+    return $responses;
 }
 
 function dump($arr){
