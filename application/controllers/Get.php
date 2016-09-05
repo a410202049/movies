@@ -12,15 +12,20 @@ class Get extends CI_Controller {
 
 	public function index()
 	{
-		$this->detailDb();
+		$page = $this->input->get('page');
+		$pageNum = $page ? $page : '0';
+		if($pageNum <= '2061'){
+			$pageNum++;
+			$this->detailDb($pageNum);
+			echo "<script>location.href='".base_url('Get/index')."/?page=".$pageNum."'</script>";
+		}
 	}
 
 	/**
 	 * [detailDb 详情入库]
 	 * @return [type] [description]
 	 */
-	public function detailDb(){
-		$nowindex = $this->input->get('page') ? $this->input->get('page') : '1';
+	public function detailDb($nowindex){
 		$this->db->limit(10,10 * ($nowindex - 1));
 		$this->db->order_by('id');
 		$ret = $this->db->get_where('movie')->result_array();
