@@ -14,7 +14,7 @@ class Get extends CI_Controller {
 	{
 		$page = $this->input->get('page');
 		$pageNum = $page ? $page : '0';
-		if($pageNum <= '2061'){
+		if($pageNum <= '1031'){
 			$pageNum++;
 			$this->detailDb($pageNum);
 			echo "<script>location.href='".base_url('Get/index')."/?page=".$pageNum."'</script>";
@@ -28,7 +28,7 @@ class Get extends CI_Controller {
 	public function detailDb($nowindex){
 		$this->db->limit(10,10 * ($nowindex - 1));
 		$this->db->order_by('id');
-		$ret = $this->db->get_where('movie')->result_array();
+		$ret = $this->db->select('*')->where(array('paly_url'=>NULL))->or_where(array('paly_url'=>''))->get('movie')->result_array();
 		$urls = array_column($ret, 'get_url');
 		$data = $this->getDetail($urls);
 		foreach ($data as $key => $value) {
