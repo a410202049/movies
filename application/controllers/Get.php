@@ -12,21 +12,24 @@ class Get extends CI_Controller {
 
 	public function index()
 	{
-		$page = $this->input->get('page');
-		$pageNum = $page ? $page : '0';
-		if($pageNum <= '1031'){
-			$pageNum++;
-			$this->detailDb($pageNum);
-			echo "<script>location.href='".base_url('Get/index')."/?page=".$pageNum."'</script>";
-		}
+		echo 'test';
 	}
+
+	// $page = $this->input->get('page');
+	// $pageNum = $page ? $page : '0';
+	// $ret = $this->db->select('*')->where(array('paly_url'=>NULL))->or_where(array('paly_url'=>''))->get('movie')->result_array();
+	// if($ret){
+	// 	$pageNum++;
+	// 	$this->detailDb($pageNum);
+	// 	echo "<script>location.href='".base_url('Get/index')."/?page=".$pageNum."'</script>";
+	// }
 
 	/**
 	 * [detailDb 详情入库]
 	 * @return [type] [description]
 	 */
 	public function detailDb($nowindex){
-		$this->db->limit(10,10 * ($nowindex - 1));
+		$this->db->limit(1,1 * ($nowindex - 1));
 		$this->db->order_by('id');
 		$ret = $this->db->select('*')->where(array('paly_url'=>NULL))->or_where(array('paly_url'=>''))->get('movie')->result_array();
 		$urls = array_column($ret, 'get_url');
