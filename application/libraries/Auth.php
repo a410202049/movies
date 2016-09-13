@@ -33,10 +33,10 @@ class Auth{
       * @param relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
       * @return boolean           通过验证返回true;失败返回false
      */
-    public function check($name, $uid,$siteid,$type=1, $mode='url', $relation='or') {
+    public function check($name, $uid, $type=1, $mode='url', $relation='or') {
         if (!$this->_config['AUTH_ON'])
             return true;
-        $authList = $this->getAuthList($uid,$type,$siteid); //获取用户需要验证的所有有效规则列表
+        $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -79,27 +79,35 @@ class Auth{
      *     array('uid'=>'用户id','group_id'=>'用户组id','title'=>'用户组名称','rules'=>'用户组拥有的规则id,多个,号隔开'),
      *     ...)
      */
-    public function getGroups($uid,$siteid) {
+    public function getGroups($uid) {
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
         $map = array(
             'a.uid' => $uid,
-            'g.status' => 1,
-            'g.site_id'=>$siteid
+            'g.status' => 1
         );
-        $user_groups = $this->CI->db->from($this->_config['AUTH_GROUP_ACCESS'].' as a')->where($map)->join($this->_config['AUTH_GROUP'].' as g','a.group_id=g.id')->get()->result_array();
+        $user_groups = $this->CI->db->select('*')->from($this->_config['AUTH_GROUP_ACCESS'].' as a')->where($map)->join($this->_config['AUTH_GROUP'].' as g','a.group_id=g.id')->get()->result_array();
         $groups[$uid]=$user_groups?:array();
         return $groups[$uid];
     }
 
+    public function getGroup($uid) {
+        $map = array(
+            'a.uid' => $uid,
+            'g.status' => 1
+        );
+        $user_group = $this->CI->db->select('*')->from($this->_config['AUTH_GROUP_ACCESS'].' as a')->where($map)->join($this->_config['AUTH_GROUP'].' as g','a.group_id=g.id')->get()->row_array();
+        $group =$user_group?:array();
+        return $group;
+    }
 
     /**
      * 获得权限列表
      * @param integer $uid  用户id
      * @param integer $type
      */
-    protected function getAuthList($uid,$type,$siteid) {
+    protected function getAuthList($uid,$type) {
         static $_authList = array(); //保存用户验证通过的权限列表
         $t = implode(',',(array)$type);
         if (isset($_authList[$uid.$t])) {
@@ -110,7 +118,7 @@ class Auth{
         }
 
         //读取用户所属用户组
-        $groups = $this->getGroups($uid,$siteid);
+        $groups = $this->getGroups($uid);
         $ids = array();//保存用户所属用户组设置的所有权限规则id
         foreach ($groups as $g) {
             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
