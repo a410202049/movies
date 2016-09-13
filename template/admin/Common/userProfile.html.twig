@@ -1,0 +1,123 @@
+{% extends "admin/Common/iframe_common.html.twig" %}
+{% block container %}
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/iCheck/custom.css')}}">
+    <div class="wrapper wrapper-content">
+        <div class="row">                       
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang('user_profile')}}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">                           
+                            <label for="none">{{lang('user_realname')}}</label>
+                            <input type="text" class="form-control" value="{{user.realname}}">                         
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="button" id="set-profile">
+                                {{lang("submit")}}
+                            </button>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{lang("modify_password")}}</h5>
+                    </div>
+                    <div class="ibox-content">                      
+                            <div class="form-group">                           
+                                <label for="none">{{lang('old_password')}}</label>
+                                <input type="password" class="form-control">                         
+                            </div>
+                            <div class="form-group">                           
+                                <label for="none">{{lang('new_password')}}</label>
+                                <input type="password" class="form-control">                         
+                            </div>
+                            <div class="form-group">                           
+                                <label for="none">{{lang('confirm_password')}}</label>
+                                <input type="password" class="form-control">                         
+                            </div>                                                        
+                                           
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" id="set-password">
+                                    {{lang("submit")}}
+                                </button>
+                            </div>
+
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+<script src="{{base_url('public/admin/js/plugins/iCheck/icheck.min.js')}}"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".i-checks").iCheck({
+            checkboxClass:"icheckbox_square-green",
+            radioClass:"iradio_square-green",
+        })        
+        $('.lang-check').on('ifChanged', function(event) {
+            if($(this).prop('checked')){
+                var dom = $('<label class="radio-inline i-checks">'+
+                            '<div class="iradio_square-green">'+
+                            '<input type="radio" class="default-lang-radio" value="'+$(this).val()+'" name="defaultLang">'+
+                            '</div>'+$(this).data('name')+
+                            '</label>');
+                
+                $('.default-lang-container').append(dom)
+                dom.iCheck({
+                    checkboxClass:"icheckbox_square-green",
+                    radioClass:"iradio_square-green",
+                })   
+            }else{
+                $('input[name="defaultLang"][value="'+$(this).val()+'"]').parent().parent().parent().remove()
+            }   
+            
+        });
+        $(document).on('click', '#set-language', function(event) {
+            event.preventDefault();
+            var data = {
+                lang:[],
+            }
+            $('#lang-form input[type="checkbox"]:checked').each(function(index, el) {
+                data.lang.push($(this).val())
+            });
+            data.defaultLang = $('.default-lang-radio:checked').val();
+            $.post('{{base_url("siteAdmin/SiteSeting/setingLang")}}', data, function(data, textStatus, xhr) {
+                /*optional stuff to do after success */
+            },"json")
+            .then(function(e){
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }
+                window.location.reload();
+                parent.layer.msg(e.message,{icon:1})
+            })            
+        });
+        $(document).on('click', '#set-info', function(event) {
+            var data = {};
+            $('.info-tab').each(function(index, el) {
+                var info = {};
+                $(this).find('.form-control').each(function(index, el) {
+                    info[$(this).data("name")] = $(this).val();
+                });
+                data[$(this).data("lang")] = info;
+            });
+            $.post('{{base_url("siteAdmin/SiteSeting/saveSeting")}}',data, function(data, textStatus, xhr) {
+            },"json")
+            .then(function(e){
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }    
+                window.location.reload();
+                parent.layer.msg(e.message,{icon:1})            
+            })
+        });
+    });
+</script>
+{% endblock %}

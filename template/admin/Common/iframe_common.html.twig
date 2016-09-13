@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <title>Eptonic 管理中心</title>
+        <meta name="keywords" content="eptonic">
+        <meta name="description" content="后台管理中心">
+        <!--[if lt IE 9]>
+        <meta http-equiv="refresh" content="0;ie.html" />
+        <![endif]-->
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="{{base_url('public/admin/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{base_url('public/admin/css/font-awesome.min.css')}}" rel="stylesheet">
+        <link href="{{base_url('public/admin/css/animate.min.css')}}" rel="stylesheet">
+        <link href="{{base_url('public/admin/css/select2.min.css')}}" rel="stylesheet">
+        <link href="{{base_url('public/admin/css/style.min.css')}}" rel="stylesheet">
+        <script src="{{base_url('public/admin/js/jquery.min.js')}}"></script>
+        
+        {% block style %}{% endblock %}
+    </head>
+    <body class="gray-bg">
+    {% block container %}{% endblock %}
+    <script src="{{base_url('public/admin/js/bootstrap.min.js')}}"></script>
+    <script src="{{base_url('public/admin/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+    <script src="{{base_url('public/admin/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+    <script src="{{base_url('public/admin/js/select2.min.js')}}"></script>
+    <script src="{{base_url('public/admin/js/jquery.cookie.js')}}"></script>
+    <script src="{{base_url('public/admin/js/hplus.min.js')}}"></script>
+    <script src="{{base_url('public/admin/js/contabs.min.js')}}"></script>
+    <script src="{{base_url('public/admin/js/plugins/layer/layer.js')}}"></script>
+    <script src="{{base_url('public/admin/js/common.js')}}"></script>
+
+    {% block script %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,108 @@
+{% extends "admin/Common/common.html.twig" %}
+{% block container %}
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" style="max-width: 140px;" class="" src="{{base_url('public/admin/img/logo.png')}}" /></span>
+
+                        </div>
+                        <div class="logo-element">
+                            E
+                        </div>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{base_url('admin/Index/sysHome')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">系统主页</span></a>
+
+                    </li>
+                    <li>
+                        <a class="J_menuItem" title="用户管理" href="{{base_url('admin/SiteUser/userManage')}}"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span></a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{base_url('admin/Site/siteManage')}}" title="站点管理"><i class="fa fa-list"></i> <span class="nav-label">站点管理</span></a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{base_url('admin/Site/emailTpl')}}" title="邮件模板"><i class="fa fa-list"></i> <span class="nav-label">邮件模板</span></a>
+                    </li>
+{#                     <li>
+                        <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">平台管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a class="J_menuItem" href="index_v1.html" data-index="0"><i class="fa fa-cogs"></i>平台设置</a>
+                            </li>
+                        </ul>
+
+                    </li> #}
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li data-toggle="dropdown" class="dropdown hidden-xs col-md-12">
+                            <a class="right-sidebar-toggle">{{user.realname}}<b class="caret"></b></span>
+                            </a>
+                        </li>
+                        <ul class="dropdown-menu m-t-xs">
+                            <li><a class="J_menuItem" href="{{base_url('admin/SiteUser/userProfile')}}">修改密码</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{{base_url('admin/Login/logout')}}">安全退出</a>
+                            </li>
+                        </ul>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row content-tabs">
+                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <a href="javascript:;" class="active J_menuTab" data-type="home" data-id="{{base_url('admin/Index/sysHome')}}">系统首页</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+                    </button>
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                        </li>
+                        <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{base_url('admin/Index/sysHome')}}" frameborder="0" data-id="{{base_url('admin/Index/sysHome')}}"></iframe>
+            </div>
+            <div class="footer">
+                <div class="pull-right">&copy; 2014-2016 <a href="http://www.eptonic.com/" target="_blank">Eptonic</a>
+                </div>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{{base_url('public/admin/js/index.js')}}"></script>
+{% endblock %}
