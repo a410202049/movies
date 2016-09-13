@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('welcome_message');
-		echo "66666";
-		print_r('sss');
+		echo "painsdsd";
+		
 	}
 }
