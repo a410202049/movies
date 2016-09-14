@@ -6,9 +6,6 @@ class Index extends Admin_Auth_Base_Controller {
 	}
 
 	public function index(){
-		if(!$this->isLogin()){
-			redirect(base_url('admin/Login'));
-		}
 		$this->twig->render(
 			'Index/index'
 		);

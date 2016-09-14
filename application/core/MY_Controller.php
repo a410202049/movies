@@ -127,6 +127,9 @@ class Admin_Auth_Base_Controller extends Admin_Base_Controller{
     {
         parent::__construct();
         $this->uid = $this->isLogin();
+        if(!$this->uid){
+          redirect(base_url('admin/Login'));
+        }
         $this->load->library('auth');
         $group = $this->auth->getGroup($this->uid);
         $this->groupid = $group['group_id'];
