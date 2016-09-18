@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2016-09-18 18:02:59
+Date: 2016-09-18 18:33:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -162,9 +162,12 @@ CREATE TABLE `ed_auth_rule` (
 -- ----------------------------
 -- Records of ed_auth_rule
 -- ----------------------------
-INSERT INTO `ed_auth_rule` VALUES ('1016', '系统主页', 'Index/sysHome', '0', '1', '1462446704', 'fa fa-home', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1031', '站点设置', 'Index/siteSeting', '0', '2', '1468547346', 'fa fa-gear', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1033', '前台菜单', 'Menus/index', '0', '50', '1468567408', 'fa fa-sitemap', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('1', '系统主页', 'Index/sysHome', '0', '1', '1462446704', 'fa fa-home', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('4', '电影管理', '', '0', '50', '0', 'fa fa-toggle-left', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('5', '分类管理', 'Movies/category', '4', '50', '0', null, '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('6', '电影列表', 'Movies/list', '4', '50', '0', null, '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('2', '站点设置', 'Index/siteSeting', '0', '2', '1468547346', 'fa fa-gear', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('3', '前台菜单', 'Menus/index', '0', '3', '1468567408', 'fa fa-sitemap', '1', null);
 
 -- ----------------------------
 -- Table structure for `ed_link`
@@ -263,4 +266,4 @@ CREATE TABLE `ed_site_seting` (
 -- ----------------------------
 -- Records of ed_site_seting
 -- ----------------------------
-INSERT INTO `ed_site_seting` VALUES ('222', '33', '444', '82222', '722', '1', '2222', '555', '555', '666');
+INSERT INTO `ed_site_seting` VALUES ('222', '33', '444', '2222222222', '333333333', '1', '2222', '555', '555', '666');

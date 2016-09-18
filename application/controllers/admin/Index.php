@@ -45,7 +45,9 @@ class Index extends Admin_Auth_Base_Controller {
 						'email' =>$arr['email'],
 						'phone' =>$arr['phone'],
 						'address' =>$arr['address'],
-						'keywords'=>$arr['keywords']
+						'keywords'=>$arr['keywords'],
+						'statistical_code'=>$arr['statistical_code'],
+						'record_number'=>$arr['record_number']
 				);
 				$this->db->update('site_seting',$dataArr);
 				$this->response_data('1','保存成功');
