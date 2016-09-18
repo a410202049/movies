@@ -147,6 +147,9 @@ class Admin_Auth_Base_Controller extends Admin_Base_Controller{
                 }
             }
         }
+        $objResult = $this->db->select('admin.*,auth_group.id as gid,auth_group.title')->from('admin')->join('auth_group_access', 'auth_group_access.uid = admin.id')->join('auth_group', 'auth_group_access.group_id = auth_group.id')->where(array('admin.id'=>$this->uid))->get()->row_array();
+        $this->twig->assign('navs',$data);
+        $this->twig->assign('userinfo',$objResult);
         // $not_check = array('SiteManage/index','BlockManage/renderEditItem','BlockManage/renderEditBlock','ArticleManage/renderEditArticle');
         // //当前操作的请求                 模块名/方法名
         // if(in_array($this->router->fetch_class().'/'.$this->router->fetch_method(), $not_check)){
@@ -159,7 +162,6 @@ class Admin_Auth_Base_Controller extends Admin_Base_Controller{
                 $this->error('没有权限');
             }
         }
-        $this->twig->assign('navs',$data);
     }
 
 }

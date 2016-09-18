@@ -1,4 +1,4 @@
-{% extends "Common/common.html.twig" %}
+{% extends "Common/common.twig" %}
 {% block container %}
     <div id="wrapper">
         <!--左侧导航开始-->
@@ -16,32 +16,26 @@
                             E
                         </div>
                     </li>
-                    <li>
-                        <a class="J_menuItem" href="{{base_url('admin/Index/sysHome')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">系统主页</span></a>
 
-                    </li>
-                    <li>
-                        <a class="J_menuItem" title="用户管理" href="{{base_url('admin/SiteUser/userManage')}}"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span></a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="{{base_url('admin/Site/siteManage')}}" title="站点管理"><i class="fa fa-list"></i> <span class="nav-label">站点管理</span></a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="{{base_url('admin/Site/emailTpl')}}" title="邮件模板"><i class="fa fa-list"></i> <span class="nav-label">邮件模板</span></a>
-                    </li>
-{#                     <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">平台管理</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level collapse">
-                            <li>
-                                <a class="J_menuItem" href="index_v1.html" data-index="0"><i class="fa fa-cogs"></i>平台设置</a>
-                            </li>
-                        </ul>
+                    {% for item in navs %}
+                        <li>
+                            <a title="{{item.title}}" href="{% if item.method %}{{base_url('admin/'~item.method)}}{% else %}javascript:void(0);{% endif %}" {% if not item['sub'] %}class="J_menuItem"{% endif %}><i class="{{item.icon}}"></i> <span class="nav-label">{{item.title}}</span> <span class="fa {% if item['sub'] %}arrow {% else %} circle {% endif %}"></span></a>
+                            {% if item['sub'] %}
+                                <ul class="nav nav-second-level collapse">
+                                    {% for sub in item.sub %}
+                                        <li >
+                                            <a title="{{sub.title}}"  class="J_menuItem" href="{{base_url('admin/'~sub.method)}}">
+                                                {% if sub.icon %}
+                                                    <i class="{{sub.icon}}"></i>
+                                                {% endif %}{{sub.title}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                     {% endfor %}
 
-                    </li> #}
                 </ul>
             </div>
         </nav>
@@ -54,7 +48,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li data-toggle="dropdown" class="dropdown hidden-xs col-md-12">
-                            <a class="right-sidebar-toggle">{{user.realname}}<b class="caret"></b></span>
+                            <a class="right-sidebar-toggle">{{userinfo.username}}<b class="caret"></b></span>
                             </a>
                         </li>
                         <ul class="dropdown-menu m-t-xs">

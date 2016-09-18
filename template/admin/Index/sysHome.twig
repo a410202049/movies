@@ -1,0 +1,81 @@
+{% extends "Common/iframe_common.twig" %}
+{% block container %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>服务器信息</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>PHP 版本：</td>
+                                    <td>{{PHP_VERSION}} </td>
+                                    <td>MySQL 版本：</td>
+                                    <td>{{mysql_get_server_info}}</td>
+                                </tr>
+                                <tr>
+                                    <td>服务器操作系统：</td>
+                                    <td>{{os}}</td>
+                                    <td>文件上传限制：</td>
+                                    <td>{{max_filesize}}</td>
+                                </tr>
+                                <tr>
+                                    <td>GD 库支持：</td>
+                                    <td>{{gd}}</td>
+                                    <td>Web 服务器：</td>
+                                    <td>{{web_server}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>系统开发</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                               <td> 成都邑动有限公司： </td>
+                               <td><a target="_blank" href="http://www.eptonic.com">http://www.eptonic.com</a></td>
+                              </tr>
+                              <tr>
+                               <td> 贡献者： </td>
+                               <td>kerry，whimsy</td>
+                              </tr>
+                              <tr>
+                               <td> 系统使用协议： </td>
+                               <td>企业内部系统，严禁开源</td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

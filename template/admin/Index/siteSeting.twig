@@ -1,0 +1,90 @@
+{% extends "Common/iframe_common.twig" %}
+{% block container %}
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/iCheck/custom.css')}}">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>站点信息</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="tabs-container">
+
+                            <form action="{{base_url('siteAdmin/SiteSeting/saveSeting')}}" method="post">
+                                <div class="tab-content">
+
+                                            <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label for="none">网站名称</label>
+                                                        <input class="form-control" data-name="sitename" value="{{sitename}}" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">关键词</label>
+                                                        <input class="form-control" data-name="keywords" value="{{keywords}}" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="none">描述</label>
+                                                        <textarea rows="5" class="form-control" data-name="description" >{{description}}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            邮箱
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="email" value="{{email}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            联系电话
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="phone" value="{{phone}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="none">
+                                                            联系地址
+                                                        </label>
+                                                        <input type="text" class="form-control" data-name="address" value="{{address}}">
+                                                    </div>
+                                            </div>
+                                </div>
+                                    <div class="form-group mt-20">
+                                        <button class="btn btn-success" type="button" id="set-info">
+                                            提交
+                                        </button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+<script src="{{base_url('public/admin/js/plugins/iCheck/icheck.min.js')}}"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+
+
+
+
+        $(document).on('click', '#set-info', function(event) {
+            var data = {};
+            $('.form-control').each(function(index, el) {
+                data[$(this).data("name")] = $(this).val();
+            });
+            $.post('{{base_url("admin/Index/saveSeting")}}',data, function(data, textStatus, xhr) {
+            },"json")
+            .then(function(e){
+                if (e.status!=1) {
+                    common.ajaxError(e);
+                    return false;
+                }
+                window.location.reload();
+                parent.layer.msg(e.message,{icon:1})
+            })
+        });
+    });
+</script>
+{% endblock %}
