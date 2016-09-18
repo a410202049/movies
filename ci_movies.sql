@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2016-09-14 16:24:46
+Date: 2016-09-18 18:02:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -162,33 +162,9 @@ CREATE TABLE `ed_auth_rule` (
 -- ----------------------------
 -- Records of ed_auth_rule
 -- ----------------------------
-INSERT INTO `ed_auth_rule` VALUES ('3', '管理员设置', 'AuthMenu/adminSeting', '0', '3', '1461304352', 'fa fa-user', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1003', '权限菜单', 'AuthMenu/index', '3', '4', '1462421741', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1004', '管理员列表', 'AuthMenu/adminList', '3', '2', '1462426444', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1005', '用户组', 'AuthMenu/groupList', '3', '3', '1462432238', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1006', '添加菜单', 'AuthMenu/addMenu', '1003', '50', '1462439203', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1007', '删除菜单', 'AuthMenu/delMenu', '1003', '50', '1462439251', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1008', '菜单排序', 'AuthMenu/order', '1003', '50', '1462439284', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1009', '添加用户', 'AuthMenu/addUser', '1004', '127', '1462439315', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1010', '禁用用户', 'AuthMenu/disableUser', '1004', '50', '1462439420', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1011', '删除用户', 'AuthMenu/delUser', '1004', '50', '1462439454', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1012', '添加分组', 'AuthMenu/addGroup', '1005', '50', '1462439568', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1013', '编辑分组', 'AuthMenu/editGroup', '1005', '50', '1462439607', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1014', '删除分组', 'AuthMenu/delGroup', '1005', '50', '1462439637', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1016', '系统主页', 'Index/index', '0', '1', '1462446704', 'fa fa-home', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1017', '修改密码', 'Main/changePassword', '1016', '50', '1462516089', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1018', '修改头像', 'Main/changeAvatar', '1016', '50', '1462517698', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1019', '上传头像', 'Main/shearphoto', '1016', '50', '1462533292', '', '0', null);
-INSERT INTO `ed_auth_rule` VALUES ('1031', '站点设置', 'SystemSeting/siteSeting', '0', '2', '1468547346', 'fa fa-gear', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1033', '前台菜单', 'SystemSeting/menus', '0', '50', '1468567408', 'fa fa-sitemap', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1034', '文章管理', 'Article/index', '0', '50', '1468572158', 'fa fa-file-text-o', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1035', '分类管理', 'Article/categoryManage', '1034', '50', '1468572218', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1036', '文章列表', 'Article/articleList', '1034', '50', '1468572245', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1037', '产品管理', 'Product/index', '0', '50', '1468894224', 'fa fa-cubes', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1038', '产品分类', 'Product/categoryManage', '1037', '50', '1468894341', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1039', '产品列表', 'Product/productList', '1037', '50', '1468894709', '', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1040', '单页面管理', 'SinglePage/index', '0', '50', '1468899903', 'fa fa-file-o', '1', null);
-INSERT INTO `ed_auth_rule` VALUES ('1041', '友情链接', 'friendLink/index', '0', '50', '1468915135', 'fa fa-code-fork', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('1016', '系统主页', 'Index/sysHome', '0', '1', '1462446704', 'fa fa-home', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('1031', '站点设置', 'Index/siteSeting', '0', '2', '1468547346', 'fa fa-gear', '1', null);
+INSERT INTO `ed_auth_rule` VALUES ('1033', '前台菜单', 'Menus/index', '0', '50', '1468567408', 'fa fa-sitemap', '1', null);
 
 -- ----------------------------
 -- Table structure for `ed_link`
@@ -218,27 +194,18 @@ CREATE TABLE `ed_menus` (
   `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL DEFAULT '',
   `url` varchar(100) NOT NULL DEFAULT '',
-  `route_url` varchar(100) DEFAULT NULL,
   `pid` smallint(5) NOT NULL COMMENT '父级ID',
   `sort` tinyint(4) NOT NULL DEFAULT '50' COMMENT '排序',
-  `create_time` int(11) NOT NULL COMMENT '创建时间',
-  `is_chain` enum('1','0') DEFAULT '0' COMMENT '是否是外链',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `target` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1045 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1048 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ed_menus
 -- ----------------------------
-INSERT INTO `ed_menus` VALUES ('102', '热门新闻', 'new', null, '0', '2', '1468567408', '0');
-INSERT INTO `ed_menus` VALUES ('1031', '222', 'about', null, '0', '1', '1468547346', '1');
-INSERT INTO `ed_menus` VALUES ('1033', '前台菜单', 'http://www.baidu.com', null, '0', '3', '1468567408', '1');
-INSERT INTO `ed_menus` VALUES ('1037', '111111111111111111', '对对对', null, '0', '50', '1468573608', '0');
-INSERT INTO `ed_menus` VALUES ('1038', '111', '3333', null, '0', '50', '1468575751', '0');
-INSERT INTO `ed_menus` VALUES ('1039', '1111', '3333', '4444', '0', '50', '1468809098', '1');
-INSERT INTO `ed_menus` VALUES ('1040', '22222', '33333', '33333', '0', '50', '1468809112', '1');
-INSERT INTO `ed_menus` VALUES ('1041', '1111', '2222', '222', '102', '50', '1468809266', '1');
-INSERT INTO `ed_menus` VALUES ('1042', '111111', '222', '333', '1033', '50', '1468809325', '0');
-INSERT INTO `ed_menus` VALUES ('1043', 'weewww', '222', '2222', '102', '50', '1469003607', '0');
+INSERT INTO `ed_menus` VALUES ('1046', '2', '111', '1045', '2', '2016-09-18 16:53:55', '_blank');
+INSERT INTO `ed_menus` VALUES ('1045', '127', '111', '0', '127', '0000-00-00 00:00:00', '_self');
 
 -- ----------------------------
 -- Table structure for `ed_single_page`
@@ -282,15 +249,18 @@ INSERT INTO `ed_single_page` VALUES ('22', '2', '1', '&lt;p&gt;8&lt;br/&gt;&lt;/
 DROP TABLE IF EXISTS `ed_site_seting`;
 CREATE TABLE `ed_site_seting` (
   `sitename` varchar(100) DEFAULT NULL,
-  `keyword` varchar(200) DEFAULT NULL,
+  `keywords` varchar(200) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `statistical_code` varchar(200) DEFAULT NULL COMMENT '统计代码',
   `record_number` varchar(20) DEFAULT NULL COMMENT '备案号',
   `site_status` enum('0','1') DEFAULT '1' COMMENT '0关闭 1开启',
-  `close_reason` varchar(200) DEFAULT NULL COMMENT '关闭站点原因'
+  `close_reason` varchar(200) DEFAULT NULL COMMENT '关闭站点原因',
+  `phone` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ed_site_seting
 -- ----------------------------
-INSERT INTO `ed_site_seting` VALUES ('成都邑动', '广告，seo，Facebook', '这是广告推广网站', '82222', '722', '1', '2222');
+INSERT INTO `ed_site_seting` VALUES ('222', '33', '444', '82222', '722', '1', '2222', '555', '555', '666');
