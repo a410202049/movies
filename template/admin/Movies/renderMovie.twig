@@ -1,0 +1,193 @@
+{% extends "Common/iframe_common.twig" %}
+{% block container %}
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/summernote/summernote.css')}}">
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/summernote/summernote-bs3.css')}}">
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/js/plugins/layer/laydate/skins/molv/laydate.css')}}">
+<link rel="stylesheet" type="text/css" href="{{base_url('public/admin/css/plugins/webuploader/webuploader.css')}}">
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content container-fluid">
+                    <div class="row">
+                        <div class="form-group col-sm-3  must">
+                            <label for="">菜单分类</label>
+                            <select name="cid" id="cid" class="form-control">
+                                {% for item in categorys %}
+                                    <option value="{{item.id}}" {% if cateid == item.id %}selected="selected"{% endif %}>{{item.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                            <div class="form-group col-sm-4  ">
+                                <label for="none">封面图</label>
+                                <input type="hidden" class="form-control form-data" id="image_url" data-name="image_url"  value="{{article.image_url}}" />
+                                <div class="uploader-container">
+                                    <div id="fileList" class="uploader-list">
+                                        <img src="{{article.image_url}}" alt="" style="width:100%;height:auto;margin-bottom: 10px;">
+                                    </div>
+                                    <div id="filePicker">选择图片</div>
+                                </div>
+                            </div>
+                        </div>
+                      <div class="row">
+                        <div class="form-group col-sm-3 ">
+                            <label for="none">上映时间</label>
+                            <input type="text" name="publish" id="add-publish" class="form-control layer-date" value="{{article.release_time}}">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-3 ">
+                            <label for="none">导演</label>
+                            <input type="text" name="publish" id="add-publisher" class="form-control" value="{{article.publisher}}">
+                        </div>
+                          </div>
+                          <div class="row">
+                        <div class="form-group col-sm-3 ">
+                            <label for="none">菜单标题</label>
+                            <input class="form-control form-data" data-name="title"  value="" />
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group col-sm-8 ">
+                            <label for="none">菜单描述</label>
+                            <textarea rows='5' class="form-control form-data editor" data-name="description"> </textarea>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{base_url('public/admin/js/plugins/summernote/summernote.min.js')}}"></script>
+<script src="{{base_url('public/admin/js/plugins/summernote/lang/summernote-zh-CN.js')}}"></script>
+<script src="{{base_url('public/admin/js/plugins/layer/laydate/laydate.js')}}"></script>
+<script src="{{base_url('public/admin/js/plugins/webuploader/webuploader.min.js')}}"></script>
+<script>
+jQuery(document).ready(function($) {
+    laydate({
+         elem: '#add-publish',
+         format: 'YYYY-MM-DD hh:mm:ss',
+         istime:true
+    })
+
+    $('.editor').summernote({
+        minHeight: 300,
+        callbacks:{
+            onImageUpload: function(files, editor, welEditable) {
+            },
+            onPaste:function(e){
+                console.log(e.originalEvent.clipboardData.getData("url"))
+            }
+
+        }
+    });
+    $(document).on('summernote.image.upload', '.editor', function(we,files) {
+        var data = new FormData();
+        $this = $(this)
+        data.append("file", files[0]);
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "{{base_url('admin/Common/doUpload?filepath=article')}}",
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+        .done(function(e) {
+            var e = JSON.parse(e)
+            if (e.status!=1) {
+                common.ajaxError(e);
+                return false;
+            }
+            $this.summernote('insertImage', e.data.file_name);
+        })
+        .fail(function() {
+            common.ajaxError(e);
+
+        })
+    });
+
+    var uploader = WebUploader.create({
+        auto: true,
+        // swf文件路径
+        swf: "{{base_url('public/admin/js/plugins/webuploader/Uploader.swf')}}",
+        server: "{{base_url('admin/Common/doUpload?filepath=article')}}",
+        pick: '#filePicker',
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+    uploader.on('uploadSuccess',function( file,res ) {
+        if(res.status!="1"){
+            layer.msg(res.message);
+            return false;
+        }
+        var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                    '<img>' +
+                    '<div class="info">' + file.name + '</div>' +
+                '</div>'
+                ),
+        $img = $li.find('img');
+        $("#fileList").empty().append( $li );
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr( 'src', res.data.file_name );
+            $("#image_url").val(res.data.file_name)
+            $
+        }, '100%', "auto" );
+    })
+
+    $(document).on('click', '#add-article', function(event) {
+        var data = {};
+        $('.info-tab').each(function(index, el) {
+            var info = {};
+            $(this).find('.form-data').each(function(index, el) {
+                var $this = $(this);
+                switch ($this[0].nodeName.toLowerCase()) {
+                    case "div":
+                        info[$this.data("name")] = $this.summernote('code').replace("script","p")
+                        break;
+                    case "textarea":
+                        info[$this.data("name")] = $this.text();
+                    default:
+                        info[$(this).data("name")] = $this.val();
+                        break;
+                }
+            });
+            data[$(this).data("lang")] = info;
+        });
+        if($(this).data('id')!=""){
+            data.aid = $(this).data('id')
+        }
+        data.type = $(this).data('type');
+        data.cid = $("#cid").val();
+        data.publish = $("#add-publish").val();
+        data.image_url = $('#image_url').val();
+        data.publisher = $("#add-publisher").val();
+        $.post('{{base_url("siteAdmin/ArticleManage/editArticle")}}',data, function(data, textStatus, xhr) {
+        },"json")
+        .then(function(e){
+            if (e.status!=1) {
+                common.ajaxError(e);
+                return false;
+            }
+            parent.layer.msg(e.message,{icon:1,time:1500},function(){
+                parent.window.location.reload();
+
+            })
+        })
+    });
+});
+</script>
+{% endblock %}

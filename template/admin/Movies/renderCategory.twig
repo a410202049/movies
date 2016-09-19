@@ -19,29 +19,24 @@
                             </select>
                         </div>
                     </div>
+
+
                     <div class="row">
                         <div class="form-group col-sm-3 must">
-                            <label for="none">URL</label>
-                            <input class="form-control form-data" id="add-url" data-name="url"  value="{{navigation.url}}" />
-                        </div>
-                        <div class="form-group col-sm-3 must">
-                            <label for="">打开方式</label><br>
-                            <div data-name="target" id="add-target" class="btn-group">
-                                <button data-value="_self" class="btn btn-white btn-toggle {% if '_self' == navigation.target %} active{% endif %} {% if btn_type =='add' %}active{% endif %}" >当前窗口</button>
-                                <button data-value="_blank" class="btn btn-white btn-toggle {% if '_blank' == navigation.target %} active{% endif %}" >新窗口</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-3 must">
-                            <label for="none">排序</label>
-                            <input type="text" id="add-sort" class="numberInput form-control" data-name="sort" value="{{navigation.sort}}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-3 must">
-                            <label for="none">菜单名称</label>
+                            <label for="none">分类名称</label>
                             <input type="text" id="add-title" class="form-control" data-name="title" value="{{navigation.title}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4 must">
+                            <label for="none">关键词</label>
+                            <input type="text" id="add-keywords" class="form-control" data-name="title" value="{{navigation.keywords}}">
+                        </div>
+                    </div>
+                                        <div class="row">
+                        <div class="form-group col-sm-4 must">
+                            <label for="none">描述</label>
+                            <textarea id="add-description" data-name="description" class="form-control" rows="5">{{navigation.description}}</textarea>
                         </div>
                     </div>
                     <div class="form-group mt-20">
@@ -67,9 +62,8 @@ jQuery(document).ready(function($) {
     $(document).on('click', '#add-article', function(event) {
         var data = {
             "title":$('#add-title').val(),
-            "url":$("#add-url").val(),
-            "sort":$('#add-sort').val(),
-            "target":$("#add-target .active").data("value")||"_self"
+            "keywords":$("#add-keywords").val(),
+            "description":$('#add-description').val(),
         };
 
         data.pid = $("#add-pid").val();
@@ -77,7 +71,7 @@ jQuery(document).ready(function($) {
         if($(this).data('id')!=""){
             data.nid = $(this).data('id')
         }
-        $.post('{{base_url("admin/Menus/editNavigation")}}',data, function(data, textStatus, xhr) {
+        $.post('{{base_url("admin/Movies/editNavigation")}}',data, function(data, textStatus, xhr) {
         },"json")
         .then(function(e){
             if (e.status!=1) {
