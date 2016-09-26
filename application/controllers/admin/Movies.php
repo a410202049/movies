@@ -95,7 +95,11 @@ class Movies extends Admin_Auth_Base_Controller {
 	}
 
 	public function renderMovie(){
+		$mid = $this->input->get('mid');
 		$arr = array();
+        $sql = "select * from ed_movie_category";
+        $arr['categorys'] = $this->db->query($sql)->result_array();
+        $arr['btn_type'] = $mid ? 'edit' : 'add';
 		$this->twig->render(
 			'Movies/renderMovie',$arr
 		);
