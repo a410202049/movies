@@ -28,30 +28,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for article in aData %}
+                                {% for data in retData %}
                                     <tr>
                                         <td>
-                                            {{article.artid}}
+                                            {{data.id}}
                                         </td>
                                         <td>
-                                            {{article.title}}
+                                            {{data.name}}
                                         </td>
                                         <td>
-                                            {{article.name}}
+                                            {{data.title}}
                                         </td>
                                         <td>
-                                            {{article.art_create_time}}
+                                            {{data.update_time}}
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-primary edit-btn" data-id="{{article.artid}}" title="{{lang('edit')}}"><i class="fa fa-edit"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-btn" data-id="{{article.artid}}" title="{{lang('delete')}}"><i class="fa fa-trash">
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-primary edit-btn" data-id="{{data.id}}" title="编辑"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-btn" data-id="{{data.id}}" title="删除"><i class="fa fa-trash">
                                         </td>
                                     </tr>
                                  {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-
+                       <div class="fixed-table-pagination col-md-12">
+                            <div class="pull-left pagination-detail">
+                                <span class="pagination-info">共<strong>{{pager.total}}</strong>条记录&nbsp;<strong>{{pager.nowindex}}/{{pager.totalpage}}</strong>页</span>
+                            </div>
+                            {% autoescape true %}  
+                             {{pager.show(1)|raw }}
+                            {% endautoescape %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +89,7 @@
               shadeClose: false, //开启遮罩关闭
               area: ['600px', 'auto'],
               maxmin:true,
-              content:'{{base_url("admin/Movies/renderMovie")}}?aid='+id,
+              content:'{{base_url("admin/Movies/renderMovie")}}?mid='+id,
             });
             layer.full(openLayer)
 

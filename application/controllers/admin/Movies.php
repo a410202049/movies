@@ -88,7 +88,12 @@ class Movies extends Admin_Auth_Base_Controller {
 	}
 
 	public function movieList(){
-		$arr = array();
+		$page['url'] = 'admin/Movies/movieList';
+        $array['query'] = 'select m.*,c.title from ed_movie as m left join ed_movie_category as c on m.cid = c.id';
+        
+        $retData = $this->page($array);
+		$arr['retData'] = $retData;
+		$arr['pager'] = $this->mypage_class;
 		$this->twig->render(
 			'Movies/movieList',$arr
 		);
@@ -100,9 +105,57 @@ class Movies extends Admin_Auth_Base_Controller {
         $sql = "select * from ed_movie_category";
         $arr['categorys'] = $this->db->query($sql)->result_array();
         $arr['btn_type'] = $mid ? 'edit' : 'add';
+        if($mid){
+            $movie = $this->db->get_where('movie',array('id'=>$mid))->row_array();
+            // print_r($movie);exit;
+            $arr['movie'] = $movie;
+            $arr['mid'] = $mid;
+        }
 		$this->twig->render(
 			'Movies/renderMovie',$arr
 		);
+	}
+
+
+	public function editMovie(){
+        $arr = $this->input->post();
+        $director = $arr['director'];
+        $description = $arr['description'];
+        $cid = $arr['cid'];
+        $cover_img = $arr['cover_img'];
+        $name = $arr['name'];
+        $paly_url = $arr['paly_url'];
+        $release_time = $arr['release_time'];
+        if($arr['type'] == 'add'){
+            $data_arr = array(
+                'director'=>$director,
+                'description'=>$description,
+                'cid'=>$cid,
+                'name'=>$name,
+                'cover_img'=>$cover_img,
+                'paly_url'=>$paly_url,
+                'update_time' =>date('Y-m-d H:i:s', time()),
+                'release_time' =>$release_time
+
+            );
+            $this->db->insert('movie',$data_arr);
+            $this->response_data('1','添加成功');
+        }else if($arr['type'] == 'edit'){
+            $mid = $arr['mid'];
+            $data_arr = array(
+                'director'=>$director,
+                'description'=>$description,
+                'cid'=>$cid,
+                'name'=>$name,
+                'cover_img'=>$cover_img,
+                'paly_url'=>$paly_url,
+                'release_time' =>$release_time,
+                'update_time' =>date('Y-m-d H:i:s', time())
+
+            );
+            $this->db->update('movie',$data_arr,array('id'=>$mid));
+            $this->response_data('1','编辑成功');
+        }
 	}
 
 }
