@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends CI_Controller {
+class Index extends Home_Base_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -9,7 +9,6 @@ class Index extends CI_Controller {
 
 	public function index()
 	{
-		set_time_limit(0) ;
-		
+		$this->twig->render('Index/index');
 	}
 }
