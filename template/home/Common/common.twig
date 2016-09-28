@@ -33,22 +33,14 @@
                 <div class="topnav">
                     <!-- menus START -->
                     <ul id="menus">
-                        <li id="menu-item-8" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-8">
-                            <a href="http://gaoqing.la/">首页</a></li>
-                        <li id="menu-item-12" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-12">
-                            <a title="1080P超清" href="http://gaoqing.la/bluray">Bluray原盘</a></li>
-                        <li id="menu-item-13" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-13">
-                            <a title="1080P超清" href="http://gaoqing.la/1080p">1080P超清</a></li>
-                        <li id="menu-item-15" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-15">
-                            <a title="720P高清" href="http://gaoqing.la/720p">720P高清</a></li>
-                        <li id="menu-item-75" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-75">
-                            <a title="3D高清" href="http://gaoqing.la/3d">3D高清</a></li>
-                        <li id="menu-item-48" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-48">
-                            <a title="WEBDL标清" href="http://gaoqing.la/webdl">WEBDL标清</a></li>
-                        <li id="menu-item-3201" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3201">
-                            <a title="高清连续剧纪录片演唱会预告片" href="http://gaoqing.la/others">Others其它</a></li>
-                        <li id="menu-item-17977" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17977">
-                            <a target="_blank" href="http://gaoqing.fm/?from=gaoqinglanav">高清电台</a></li>
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-8">
+                                <a href="{{base_url('Index/index')}}">首页</a>
+                            </li>
+                         {% for item in navs %}
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-8">
+                                <a href="{{base_url(item.url)}}">{{item.title}}</a>
+                            </li>
+                         {% endfor %}
                     </ul>
                 </div>
             </div>

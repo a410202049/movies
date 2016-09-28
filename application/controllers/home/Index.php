@@ -8,7 +8,8 @@ class Index extends Home_Base_Controller {
 	}
 
 	public function index()
-	{
+	{	
+		
 		$this->twig->render('Index/index');
 	}
 }

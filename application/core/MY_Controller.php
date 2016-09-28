@@ -170,9 +170,11 @@ class Home_Base_Controller extends Base_Controller{
     public function __construct()
     {
         parent::__construct();
+        $navs = $this->db->get_where('menus')->result_array();
         $this->config->load('twig');
         $twig_config = $this->config->item('twig_home');//后台模板引擎设置
         $this->load->library('Twig',$twig_config);
+        $this->twig->assign('navs',$navs);
     }
 
 }
