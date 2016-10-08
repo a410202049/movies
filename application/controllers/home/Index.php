@@ -9,7 +9,7 @@ class Index extends Home_Base_Controller {
 
 	public function index()
 	{	
-		
+		$movies = $this->db->get_where('movie')->result_array();
 		$this->twig->render('Index/index');
 	}
 }
