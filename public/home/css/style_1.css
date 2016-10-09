@@ -159,14 +159,35 @@ select#select-menu-nav { display: none; }
 #post_container .fixed-hight .info{ overflow:hidden; height:26px;}
 
 /*分页*/
-.pagination a,.pagination span { width: 28px; text-align: center; height: 28px; line-height: 28px; margin: 0px 0 0px 4px; display: inline-block; text-decoration: none; border: 1px #dfdfdf solid; background: #fff; color: #888; }
+
+.pagination li {
+	float: left;
+	margin-left: 10px;
+
+}
+
+.pagination li a{
+    padding: 6px 10px;
+    display: block;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #dfdfdf;
+}
+
+.pagination li.active a{
+    background: #333;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+/*.pagination a,.pagination span { width: 28px; text-align: center; height: 28px; line-height: 28px; margin: 0px 0 0px 4px; display: inline-block; text-decoration: none; border: 1px #dfdfdf solid; background: #fff; color: #888; }
 .pagination a.extend { padding: 0 5px }
 .pagination .current { height: 28px; width: 28px; color: #fff; border: 1px #333 solid; background: #333; margin: 20px 0 0 4px; }
 .pagination a:hover { height: 28px; width: 28px; color: #fff; border: 1px #333 solid; text-decoration: none; background: #333; }
 .pagination .page_previous, .pagination .prev { width: 54px; height: 28px; text-align: center; }
 .pagination .page_previous:hover, .pagination .prev:hover { width: 54px; height: 28px; text-align: center; }
 .pagination .page_next, .pagination .next, .pagination .page_next:hover, .pagination .next:hover { width: 54px; height: 28px; text-align: center; }
-.pagination .fir_las, .pagination .fir_las:hover { width: 34px; height: 28px; text-align: center; }
+.pagination .fir_las, .pagination .fir_las:hover { width: 34px; height: 28px; text-align: center; }*/
 /*single*/
 .article_container { padding: 10px; }
 .article_container h1 { font-size: 18px; margin-top: 5px; font-weight: bold; line-height: 1.5em; padding-bottom: 10px; }

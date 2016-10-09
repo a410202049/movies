@@ -79,7 +79,7 @@ class Mypage_class {
         if($this->nowindex > 1){
             return $this->_get_link($this->_get_url($this->nowindex-1),$this->pre_page,$style);
         }
-        return '<li class="'.$style.'">'.$this->pre_page.'</li>';
+        return '<li class="'.$style.'"><a href="javascript:void(0);">'.$this->pre_page.'</a></li>';
     }
   
      /**
@@ -180,7 +180,7 @@ class Mypage_class {
                 return '<ul class="pagination pull-right">'.$this->pre_page().$this->nowbar().$this->next_page().'</ul>';
                 break;
             case 2://首页 上一页 1 2 3 4 5 下一页  末页 第x页
-                return $this->first_page().$this->pre_page().$this->nowbar().$this->next_page().$this->last_page().'&nbsp;第'.$this->select().'页';
+                return '<ul class="pagination">'.$this->first_page().$this->pre_page().$this->nowbar().$this->next_page().$this->last_page().'</ul>&nbsp;第'.$this->select().'页';
                 break;
             case 3://上一页 1 2 3 4 5 下一页
                 return $this->pre_page().$this->nowbar().$this->next_page();
@@ -213,7 +213,7 @@ class Mypage_class {
                 }
             }  
         }
-        $this->url=site_url($url);
+        $this->url=base_url($url);
     }
      
     /**

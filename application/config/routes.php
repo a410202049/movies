@@ -51,5 +51,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'home@Index';
 $route['admin'] = "admin/Index";
+$route['page/:num'] = "home/Index/index";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+$route['new'] = "home/Index/category/1";
+$route['magic'] = "home/Index/category/2";
+$route['love'] = "home/Index/category/3";
+$route['comedy'] = "home/Index/category/4";
+$route['cinema'] = "home/Index/category/5";
+$route['science'] = "home/Index/category/6";
+$route['plot'] = "home/Index/category/7";
+$route['action'] = "home/Index/category/8";
+
+$route['new/(:num)'] = "home/Index/category/1";
+$route['magic/(:num)'] = "home/Index/category/2";
+$route['love/(:num)'] = "home/Index/category/3";
+$route['comedy/(:num)'] = "home/Index/category/4";
+$route['cinema/(:num)'] = "home/Index/category/5";
+$route['science/(:num)'] = "home/Index/category/6";
+$route['plot/(:num)'] = "home/Index/category/7";
+$route['action/(:num)'] = "home/Index/category/8";

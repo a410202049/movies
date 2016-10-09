@@ -88,8 +88,8 @@ class Base_Controller extends CI_Controller {
         $page_config['perpage']=$perpage;   //每页条数
         $page_config['part']=$part;//当前页前后链接数量
         $page_config['url']=$url;//url
-        $page_config['pre_page']='<span aria-hidden="true">«</span>';
-        $page_config['next_page']='<span aria-hidden="true">»</span>';//url
+        $page_config['pre_page']=$array['pre_page'] ? $array['pre_page'] : '<span aria-hidden="true">«</span>';
+        $page_config['next_page']=$array['next_page'] ? $array['next_page'] : '<span aria-hidden="true">»</span>';//url
         $page_config['seg']=$seg;//参数取 index.php之后的段数，默认为3，即index.php/control/function/18 这种形式
         $page_config['nowindex']=$this->uri->segment($page_config['seg']) ? $this->uri->segment($page_config['seg']):1;//当前页
         $this->load->library('mypage_class');
