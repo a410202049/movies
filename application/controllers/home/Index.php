@@ -36,4 +36,14 @@ class Index extends Home_Base_Controller {
 		$arr['pager'] = $this->mypage_class;
 		$this->twig->render('Index/index',$arr);
 	}
+
+	public function detail($id){
+		$movie = $this->db->get_where('movie',array('id'=>$id))->row_array();
+		$movie_images = $this->db->get_where('ed_movie_images',array('movie_id'=>$id))->result_array();
+		$rand_movie = $this->db->query('SELECT * FROM ed_movie ORDER BY RAND()  LIMIT 4')->result_array();
+		$arr['rand_movie'] = $rand_movie;
+		$arr['movie'] = $movie;
+		$arr['movie_images'] = $movie_images;
+		$this->twig->render('Index/detail',$arr);
+	}
 }

@@ -1,0 +1,33 @@
+{% extends "Common/common.twig" %}
+{% block container %}
+    <div class="mainleft">
+        <ul class="masonry clearfix" id="post_container">
+            {% for item in retData %}
+                <li class="post box row fixed-hight">
+                    <div class="post_hover">
+                        <div class="thumbnail">
+                            <a title="{{item.name}}" rel="bookmark" class="zoom" href="{{base_url('detail/'~item.id)}}">
+                                <img alt="{{item.name}}" src="{{item.cover_img}}"></a>
+                        </div>
+                        <div class="article">
+                            <h2>
+                                <a title="{{item.name}}" rel="bookmark" href="{{base_url('detail/'~item.id)}}">{{item.name}}</a></h2>
+                            <div class="arrow-catpanel-top">&nbsp;</div></div>
+                        <div class="info">
+                            <span class="info_date info_ico">{{item.update_time}}</span>
+                            
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="clear"></div>
+        <div class="navigation container">
+            <div class="pagination">
+                {% autoescape true %}  
+                 {{pager.show(1)|raw }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

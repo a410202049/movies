@@ -137,7 +137,7 @@ select#select-menu-nav { display: none; }
 .post_hover { position:relative; border-bottom: #fff solid 1px; }
 .thumbnail { max-height: 500px; overflow: hidden; }
 .thumbnail a { display: block; padding: 7px 7px 0 7px; }
-.thumbnail img { width: 300px; height: 400px; }
+.thumbnail img { width: 300px; height: 250px; }
 .article { padding: 7px 10px 20px 10px; position:relative }
 .info { font-size: 12px; line-height: 15px; color: #999; white-space: nowrap; text-overflow: ellipsis; position: relative; border-top: 1px solid #DFDFDF; background: #F9F9F9; line-height: 25px; padding: 0 5px; text-align: center; }
 .info span { height: 20px; line-height: 17px; }

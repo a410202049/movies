@@ -73,3 +73,5 @@ $route['cinema/(:num)'] = "home/Index/category/5";
 $route['science/(:num)'] = "home/Index/category/6";
 $route['plot/(:num)'] = "home/Index/category/7";
 $route['action/(:num)'] = "home/Index/category/8";
+$route['detail/(:num)'] = "home/Index/detail/$1";
+
