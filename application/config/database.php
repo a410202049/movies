@@ -73,69 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'local';
 $query_builder = TRUE;
 
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => '192.168.1.2',
-	'username' => 'root',
-	'password' => 'YD20141208',
-	'database' => 'enterprise',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'ed_',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
 
 
-$db['local'] = array(
-	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'ci_movies',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'ed_',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
 
-$db['trunk'] = array(
-	'dsn'	=> '',
-	'hostname' => '52.74.23.14',
-	'username' => 'enterprise',
-	'password' => 'hCEi6MQf',
-	'database' => 'enterprise',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'ed_',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+	
